@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemantauan Klien Bapas Berbasis Komunitas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f8f9fa; color: #333; font-family: Arial, sans-serif; }
+        .card { border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .btn-primary { background-color: #007bff; border-color: #007bff; }
+        .btn-primary:hover { background-color: #0056b3; }
+        .navbar { background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .footer { background-color: white; padding: 20px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Bapas Monitor</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#register">Pendaftaran</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#monitor">Pemantauan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#forum">Forum</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#analytics">Analisis</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Pemantauan Klien Bapas Berbasis Komunitas</h1>
+        
+        <!-- Pendaftaran dan Profil Klien -->
+        <section id="register" class="mb-5">
+            <h2>Pendaftaran dan Profil Klien</h2>
+            <div class="card p-4">
+                <form id="clientForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="age" class="form-label">Usia</label>
+                            <input type="number" class="form-control" id="age" required>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="address" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="address" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="case" class="form-label">Kasus Hukum</label>
+                            <input type="text" class="form-control" id="case" required>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Status Pemasyarakatan</label>
+                            <select class="form-control" id="status" required>
+                                <option value="di luar">Di Luar</option>
+                                <option value="di dalam">Di Dalam</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="otherInfo" class="form-label">Informasi Lain</label>
+                            <textarea class="form-control" id="otherInfo"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Daftar Klien</button>
+                </form>
+                <div id="clientList" class="mt-4">
+                    <h5>Daftar Klien Terdaftar</h5>
+                    <ul id="clients" class="list-group"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pemantauan Klien -->
+        <section id="monitor" class="mb-5">
+            <h2>Pemantauan Klien</h2>
+            <div class="card p-4">
+                <h5>Pelaporan Mandiri Klien</h5>
+                <form id="reportForm">
+                    <select class="form-control mb-2" id="clientSelect" required>
+                        <option value="">Pilih Klien</option>
+                    </select>
+                    <textarea class="form-control mb-2" placeholder="Deskripsikan aktivitas (pekerjaan, pendidikan, dll.)" id="activity" required></textarea>
+                    <button type="submit" class="btn btn-primary">Kirim Laporan</button>
+                </form>
+                <div id="reports" class="mt-4">
+                    <h5>Laporan Terbaru</h5>
+                    <ul class="list-group"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forum Diskusi -->
+        <section id="forum" class="mb-5">
+            <h2>Forum Diskusi Komunitas</h2>
+            <div class="card p-4">
+                <div id="forumPosts" class="mb-3">
+                    <div class="border p-2 mb-2">Petugas Bapas: Selamat datang di forum! Bagikan laporan atau diskusi.</div>
+                </div>
+                <form id="forumForm">
+                    <textarea class="form-control mb-2" placeholder="Tulis pesan..." id="forumMessage" required></textarea>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Analisis dan Laporan -->
+        <section id="analytics" class="mb-5">
+            <h2>Analisis dan Laporan</h2>
+            <div class="card p-4">
+                <canvas id="progressChart"></canvas>
+                <p class="mt-3">Grafik ini menunjukkan perkembangan hipotetis klien berdasarkan laporan.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2023 Bapas Monitor. Dibuat untuk demonstrasi. Pastikan privasi data.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simulasi data penyimpanan (localStorage)
+        let clients = JSON.parse(localStorage.getItem('clients')) || [];
+        let reports = JSON.parse(localStorage.getItem('reports')) || [];
+        let forumPosts = JSON.parse(localStorage.getItem('forumPosts')) || ['Petugas Bapas: Selamat datang di forum! Bagikan laporan atau diskusi.'];
+
+        // Fungsi untuk memperbarui daftar klien
+        function updateClientList() {
+            const clientSelect = document.getElementById('clientSelect');
+            const clientsUl = document.getElementById('clients');
+            clientSelect.innerHTML = '<option value="">Pilih Klien</option>';
+            clientsUl.innerHTML = '';
+            clients.forEach(client => {
+                clientSelect.innerHTML += `<option value="${client.name}">${client.name}</option>`;
+                clientsUl.innerHTML += `<li class="list-group-item">${client.name} - ${client.status}</li>`;
+            });
+        }
+
+        // Fungsi untuk memperbarui laporan
+        function updateReports() {
+            const reportsUl = document.querySelector('#reports ul');
+            reportsUl.innerHTML = '';
+            reports.forEach(report => {
+                reportsUl.innerHTML += `<li class="list-group-item">${report.client}: ${report.activity}</li>`;
+            });
+        }
+
+        // Fungsi untuk memperbarui forum
+        function updateForum() {
+            const forumDiv = document.getElementById('forumPosts');
+            forumDiv.innerHTML = '';
+            forumPosts.forEach(post => {
+                forumDiv.innerHTML += `<div class="border p-2 mb-2">${post}</div>`;
+            });
+        }
+
+        // Event listener untuk form pendaftaran
+        document.getElementById('clientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const client = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                address: document.getElementById('address').value,
+                case: document.getElementById('case').value,
+                status: document.getElementById('status').value,
+                otherInfo: document.getElementById('otherInfo').value
+            };
+            clients.push(client);
+            localStorage.setItem('clients', JSON.stringify(clients));
+            updateClientList();
+            this.reset();
+            alert('Klien berhasil didaftarkan!');
+        });
+
+        // Event listener untuk form laporan
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const report = {
+                client: document.getElementById('clientSelect').value,
+                activity: document.getElementById('activity').value
+            };
+            reports.push(report);
+            localStorage.setItem('reports', JSON.stringify(reports));
+            updateReports();
+            this.reset();
+            alert('Laporan dikirim!');
+        });
+
+        // Event listener untuk forum
+        document.getElementById('forumForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = document.getElementById('forumMessage').value;
+            forumPosts.push('Komunitas: ' + message);
+            localStorage.setItem('forumPosts', JSON.stringify(forumPosts));
+            updateForum();
+            this.reset();
+        });
+
+        // Inisialisasi grafik (Chart.js)
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Bulan 1', 'Bulan 2', 'Bulan 3'],
+                datasets: [{
+                    label: 'Perkembangan Klien',
+                    data: [10, 20, 30], // Data hipotetis
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0,123,255,0.1)',
+                }]
+            }
+        });
+
+        // Load data awal
+        updateClientList();
+        updateReports();
+        updateForum();
+    </script>
+</body>
+</html>
